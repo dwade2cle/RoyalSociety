@@ -1,3 +1,9 @@
+/////////////////////////////////////////////////////////////////////////
+/**These comments let the user know what each method does pretty well.
+*Method descriptions usually would go in the header file, while comments 
+*on code would go here. Good use of notation. */
+////////////////////////////////////////////////////////////////////////
+
 /*
 Methods that allow useres to insertAter, insertBefore and delete nodes. 
 */
@@ -8,21 +14,14 @@ Node::Node(void)
 	next_ = this;
 	prev_ = next_;
 }
-/*
-@param next next spot in the list
-@param prev previous spot in the list
-@param window a rectangle
-*/
+
 Node::Node(Node* next, Node* prev, Window* window)
 {
 	next_ = next;
 	prev_ = prev;
 	window_ = window;
 }
-/*
-@param nodeAt the node you want to insert after
-@param newWindow the new rectangle to be placed after the nodeAt
-*/
+
 void Node::insertAfter(Node* nodeAt, Window* newWindow)
 {
 	Node* nextNode = nodeAt->next_;
@@ -30,10 +29,7 @@ void Node::insertAfter(Node* nodeAt, Window* newWindow)
 	nodeAt->next_ = tmp;
 	nextNode->prev_ = tmp;
 }
-/*
-@param node the node you want to insert in front of
-@param newWindow the new rectangle to be placed before the node
-*/
+
 void Node::insertBefore(Node* node, Window* newWindow)
 {
 	Node* previousNode = node->prev_;
@@ -41,18 +37,32 @@ void Node::insertBefore(Node* node, Window* newWindow)
 	node->prev_ = tmp;
 	previousNode->next_ = tmp;
 }
-/*
-@param remove_here removes the given node from the list
-*/
+
+/////////////////////////////////////////////////////
+/** This function is giving me trouble when I use it
+*in the App.  I think we are deleting a connection
+*because we get an Access violation error if we try to
+*add another node. */
+////////////////////////////////////////////////////
 void Node::remove(Node* remove_here) 
 {
+	/////////////////////////////////
+	/** Hopefully this will keep the 
+	*list intact. */
+
+	/** After testing, it seems it does
+	*not. It will work the first time, 
+	*and cause issues thereafter.
+	*I think this might be because
+	*it cannot find ->prev_ or ->next_ */
+	/////////////////////////////////
+	Node* cur = remove_here->prev_;
+	Node* pointTo = remove_here->next_;
+	cur->next_ = pointTo;
 	delete remove_here;
 }
 
-/*
-This method reverses the order of the nodes in the list.
-@param sentinel the decode node in the list
-*/
+
 void Node::reverse(Node* sentinel)
 {
 	Node* tmp;
